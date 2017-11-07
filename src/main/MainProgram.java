@@ -1,5 +1,11 @@
 package main;
 
+import java.io.FileNotFoundException;
+
+import classes.Item;
+import classes.Mochila;
+import utilitarios.TextReader;
+
 public class MainProgram {
 
 	/*
@@ -11,9 +17,9 @@ public class MainProgram {
 		| ARQUIVO DE ENTRADA
 		---------------------------------------------------------------------------------------------------------
 		Londres Paris Dublin Amsterdam Lisboa Madrid Barcelona Ibiza // Nome dos itens
-		40 25 17 35 38 34 54 48                                                                //Lucro
-		49 35 15 43 38 37 21 37                                                                //Pesos
-		137                                                                                    // Capacidade
+		40 25 17 35 38 34 54 48                                      // Lucro
+		49 35 15 43 38 37 21 37                                      // Pesos
+		137                                                          // Capacidade
 		
 		 
 		---------------------------------------------------------------------------------------------------------
@@ -30,8 +36,85 @@ public class MainProgram {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
+		/*
+		//Exibir o que veio por parâmetro.
+		int i = 0;
+		for (String s : args) {
+			System.out.println("args[" + i + "] = " + s);
+			i++;
+		}
+		*/
+		
+		String charSplit = " ";
+		try {
+			// Ler arquivo de texto, contendo o nome de cada item, lucro, peso e capacidade.
+			String txtJson = TextReader.readTextFile("itens_capacidade.txt");
+			
+			// Quebra cada linha em um vetor
+			String [] txtVetor = txtJson.split("\n");
+			
+			// Primeira linha contém o nome de cada item, separados por espaço
+			String [] cabecalhos = txtVetor[0].trim().split(charSplit);
+			
+			// Segunda linha contém o lucro
+			// TODO Ler linha do Lucro
+			String [] lucros = txtVetor[1].trim().split(charSplit);
+			
+			// Terceira linha contém os Pesos
+			// TODO Ler linha dos pesos
+			String [] pesos = txtVetor[2].trim().split(charSplit);
+			
+			// Quarta, e última, linha contém a capacidade total
+			//TODO Ler linha da capacidade total
+			int capacidade = Integer.valueOf(txtVetor[3]);
+			
+			Mochila m = new Mochila("Snapsack", capacidade);
+			
+			for (int i = 0; i < pesos.length; i++) {
+				Item item = new Item(cabecalhos[i], Integer.parseInt(lucros[i]), Integer.parseInt(pesos[i]));
+				m.addItem(item);
+			}
+			
+			System.out.println(m.toString());
+			
+			System.out.println("Linhas");
+			for (String s : txtVetor) {
+				System.out.println(s);
+			}
+			System.out.println();
+			//
+			System.out.println("Cabeçalhos:");
+			for (String s : cabecalhos) {
+				System.out.println(s);
+			}
+			System.out.println();
+			//
+			System.out.println("Lucros:");
+			for (String s : lucros) {
+				System.out.println(s);
+			}
+			System.out.println();
+			//
+			System.out.println("Lucros:");
+			for (String s : lucros) {
+				System.out.println(s);
+			}
+			System.out.println();
+			//
+			System.out.println("Pesos:");
+			for (String s : pesos) {
+				System.out.println(s);
+			}
+			System.out.println();
+			//
+			System.out.println("Capacidade: "+capacidade);
+			
+		} catch (FileNotFoundException fe) {
+			fe.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
