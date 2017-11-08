@@ -7,6 +7,7 @@ public class Mochila {
 	
 	private String nome;
 	private int capacidade;
+	private int peso;
 	private List<Item> itens = new ArrayList<>();
 	
 	public Mochila(String nome, int capacidade) {
@@ -34,19 +35,34 @@ public class Mochila {
 		this.capacidade = capacidade;
 	}
 	//
-	public void addItem(Item item){
-		itens.add(item);
+	public int getPeso() {
+		return peso;
+	}
+	//
+	public void addItem(Item item) throws Exception {
+		if (item.getPeso()+getPeso() > getCapacidade()) {
+			throw new Exception("Capacidade excedida.");
+		} else {
+			itens.add(item);
+			peso += item.getPeso();
+		}
 	}
 	public List<Item> getItens() {
 		return itens;
 	}
 	public void setItens(List<Item> itens) {
-		this.itens = itens;
+		for (Item it : itens) {
+			try {
+				addItem(it);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
 	public String toString(){
-		StringBuilder sb = new StringBuilder(getNome() + " (" + getCapacidade() + ")\n"); 
+		StringBuilder sb = new StringBuilder(getNome() + " (Cap: " + getCapacidade() + ", Peso: " + getPeso() + ")\n"); 
 		for (Item item : itens) {
 			sb.append("  " + item.toString() + "\n");
 		}

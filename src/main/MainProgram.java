@@ -1,13 +1,25 @@
 package main;
 
 import java.io.FileNotFoundException;
-
 import classes.Item;
 import classes.Mochila;
 import utilitarios.TextReader;
+import utilitarios.TextWriter;
 
+/**
+ * 
+ * @author Gilmar J. A. Goulart
+ * @author Jayson Costa
+ * @author Sean Pablo Eschenbach
+ * @category Trabalho ITC - Snapsack
+ *
+ */
 public class MainProgram {
-
+	
+	public static String ARQUIVO_ENTRADA = "itens_capacidade.txt";
+	public static String ARQUIVO_SAIDA = "itens_selecionados.txt";
+	
+	
 	/*
 	Instruções:
 		Desenvolva uma estratégia gulosa para resolver o problema da mochila binária.
@@ -49,7 +61,7 @@ public class MainProgram {
 		String charSplit = " ";
 		try {
 			// Ler arquivo de texto, contendo o nome de cada item, lucro, peso e capacidade.
-			String txtJson = TextReader.readTextFile("itens_capacidade.txt");
+			String txtJson = TextReader.readTextFile(ARQUIVO_ENTRADA);
 			
 			// Quebra cada linha em um vetor
 			String [] txtVetor = txtJson.split("\n");
@@ -73,42 +85,17 @@ public class MainProgram {
 			
 			for (int i = 0; i < pesos.length; i++) {
 				Item item = new Item(cabecalhos[i], Integer.parseInt(lucros[i]), Integer.parseInt(pesos[i]));
-				m.addItem(item);
+				try {
+					m.addItem(item);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			
 			System.out.println(m.toString());
 			
-			System.out.println("Linhas");
-			for (String s : txtVetor) {
-				System.out.println(s);
-			}
-			System.out.println();
-			//
-			System.out.println("Cabeçalhos:");
-			for (String s : cabecalhos) {
-				System.out.println(s);
-			}
-			System.out.println();
-			//
-			System.out.println("Lucros:");
-			for (String s : lucros) {
-				System.out.println(s);
-			}
-			System.out.println();
-			//
-			System.out.println("Lucros:");
-			for (String s : lucros) {
-				System.out.println(s);
-			}
-			System.out.println();
-			//
-			System.out.println("Pesos:");
-			for (String s : pesos) {
-				System.out.println(s);
-			}
-			System.out.println();
-			//
-			System.out.println("Capacidade: "+capacidade);
+
+			//TextWriter.writeTextToFile(ARQUIVO_SAIDA, resultado);
 			
 		} catch (FileNotFoundException fe) {
 			fe.printStackTrace();
