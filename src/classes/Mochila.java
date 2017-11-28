@@ -8,6 +8,7 @@ public class Mochila {
 	private String nome;
 	private int capacidade;
 	private int peso;
+	private int lucro;
 	private List<Item> itens = new ArrayList<>();
 	
 	public Mochila(String nome, int capacidade) {
@@ -39,11 +40,17 @@ public class Mochila {
 		return peso;
 	}
 	//
+	public int getLucro() {
+		return lucro;
+	}
+
+	//
 	public void addItem(Item item) throws Exception {
 		if (item.getPeso()+getPeso() > getCapacidade()) {
 			throw new Exception("Capacidade excedida.");
 		} else {
 			itens.add(item);
+			lucro += item.getLucro();
 			peso += item.getPeso();
 		}
 	}
