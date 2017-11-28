@@ -60,6 +60,10 @@ public class Mochila {
 		}
 	}
 	
+	public boolean hasItem(Item i) {
+		return getItens().indexOf(i) >= 0;
+	}
+	
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder(getNome() + " (Cap: " + getCapacidade() + ", Peso: " + getPeso() + ")\n"); 
