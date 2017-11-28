@@ -1,6 +1,8 @@
 package main;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import classes.Item;
 import classes.Mochila;
 import utilitarios.TextReader;
@@ -81,21 +83,69 @@ public class MainProgram {
 			//TODO Ler linha da capacidade total
 			int capacidade = Integer.valueOf(txtVetor[3]);
 			
-			Mochila m = new Mochila("Snapsack", capacidade);
+			// Popular uma coleção com os itens
+			List<Item> itensEntrada = new ArrayList<>();
+			List<Item> itensOrderDesc = new ArrayList<>();
 			
+			// Carrega lista de itens
 			for (int i = 0; i < pesos.length; i++) {
 				Item item = new Item(cabecalhos[i], Integer.parseInt(lucros[i]), Integer.parseInt(pesos[i]));
+				itensEntrada.add(item);
+				itensOrderDesc.add(item);
+			}
+			
+			// Ordena uma das listas de forma decrescente por Valor/Peso
+			itensOrderDesc.sort(null);
+			
+			// Inicializa Mochila
+			Mochila m = new Mochila("Snapsack ITC", capacidade);
+			
+			// Adiciona os itens na mochila
+			System.out.println("Adicionando itens...");
+			for (Item item : itensOrderDesc) {
 				try {
+					System.out.println(item.toString());
 					m.addItem(item);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
+			itensOrderDesc = null;
+			System.out.println("");
 			
+			// Exibir no Console os dados da Mochila
 			System.out.println(m.toString());
 			
-
-			//TextWriter.writeTextToFile(ARQUIVO_SAIDA, resultado);
+			boolean isPrimeiraIteracao = true;
+			StringBuilder resultado = new StringBuilder(itensEntrada.size()*2);
+			// Criar texto para arquivo de saída
+			for (Item item : itensEntrada) {
+				System.out.println(m.hasItem(item) + ": " + item.toString());
+				
+				if (!isPrimeiraIteracao) {
+					resultado.append(" ");
+				}
+				
+				if (m.hasItem(item)) {
+					resultado.append("1");
+				} else {
+					resultado.append("0");
+				}
+				
+				if (isPrimeiraIteracao) {
+					isPrimeiraIteracao = false;
+				}
+			}
+			
+			// Adicionar lucro total da Mochila ao arquivo de saída.
+			resultado.append("\n");
+			resultado.append(m.getLucro());
+			// Adicionar peso total da Mochila ao arquivo de saída.
+			resultado.append("\n");
+			resultado.append(m.getPeso());
+			
+			System.out.println(resultado.toString());
+			TextWriter.writeTextToFile(ARQUIVO_SAIDA, resultado.toString());
 			
 		} catch (FileNotFoundException fe) {
 			fe.printStackTrace();
